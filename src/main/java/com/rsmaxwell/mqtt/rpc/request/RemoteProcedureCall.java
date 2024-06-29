@@ -2,6 +2,8 @@ package com.rsmaxwell.mqtt.rpc.request;
 
 import java.util.WeakHashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttCallback;
 import org.eclipse.paho.mqttv5.common.MqttException;
@@ -15,6 +17,8 @@ import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Token;
 
 public class RemoteProcedureCall {
+
+	private static final Logger logger = LogManager.getLogger(RemoteProcedureCall.class);
 
 	static int qos = 0;
 	static String clientID = "requester";
@@ -33,7 +37,7 @@ public class RemoteProcedureCall {
 	// Subscribe to the response topic
 	public void subscribe() throws Exception {
 		MqttSubscription subscription = new MqttSubscription(responseTopic);
-		System.out.printf("subscribing to: %s\n", responseTopic);
+		logger.info("subscribing to: %s", responseTopic);
 		client.subscribe(subscription).waitForCompletion();
 	}
 
@@ -49,10 +53,10 @@ public class RemoteProcedureCall {
 		message.setProperties(properties);
 		message.setQos(qos);
 
-		System.out.printf(String.format("Publishing: %s to topic: %s with qos: %d\n", new String(request), topic, qos));
-		System.out.printf(String.format("    replyTopic: %s\n", responseTopic));
+		logger.info(String.format("Publishing: %s to topic: %s with qos: %d", new String(request), topic, qos));
+		logger.info(String.format("    replyTopic: %s", responseTopic));
 		client.publish(topic, message).waitForCompletion();
-		System.out.println("Message published");
+		logger.info("Message published");
 
 		tokens.put(correlID, token);
 		return token;
@@ -63,17 +67,17 @@ public class RemoteProcedureCall {
 
 			@Override
 			public void messageArrived(String topic, MqttMessage reply) throws Exception {
-				System.out.println("RemoteProcedureCall.Adapter.messageArrived");
+				logger.info("RemoteProcedureCall.Adapter.messageArrived");
 
 				MqttProperties properties = reply.getProperties();
 				byte[] corrationData = properties.getCorrelationData();
 				String correlID = new String(corrationData);
 
-				System.out.printf("correlID: %s\n", correlID);
+				logger.info("correlID: %s", correlID);
 
 				Token token = tokens.get(correlID);
 				if (token == null) {
-					System.out.printf("Discarding reply because token is null\n");
+					logger.info("Discarding reply because token is null");
 					return;
 				}
 

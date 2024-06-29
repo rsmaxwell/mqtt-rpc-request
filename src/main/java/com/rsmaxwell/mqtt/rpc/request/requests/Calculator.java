@@ -1,9 +1,14 @@
 package com.rsmaxwell.mqtt.rpc.request.requests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 
 public class Calculator extends RpcRequest {
+
+	private static final Logger logger = LogManager.getLogger(Calculator.class);
 
 	public Calculator(String operation, int param1, int param2) {
 		Request request = new Request("calculator");
@@ -16,6 +21,6 @@ public class Calculator extends RpcRequest {
 	@Override
 	public void handle(Response response) throws Exception {
 		int result = response.getInteger("result");
-		System.out.printf("result: %d\n", result);
+		logger.info("result: %d", result);
 	}
 }
