@@ -1,8 +1,10 @@
-package com.rsmaxwell.mqtt.rpc.request.requests;
+package com.rsmaxwell.mqtt.rpc.request;
 
 import java.net.HttpURLConnection;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +12,8 @@ import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 
 public abstract class RpcRequest {
+
+	private static final Logger logger = LogManager.getLogger(RpcRequest.class);
 
 	private Request request;
 
@@ -27,8 +31,8 @@ public abstract class RpcRequest {
 
 		String payload = new String(replyMessage.getPayload());
 
-		System.out.printf("message %s, topic: %s, qos: %d\n", payload, topic, replyMessage.getQos());
-		System.out.printf("decoding message payload: %s\n", payload);
+		logger.info(String.format("message %s, topic: %s, qos: %d\n", payload, topic, replyMessage.getQos()));
+		logger.info(String.format("decoding message payload: %s\n", payload));
 
 		Response reply = mapper.readValue(payload, Response.class);
 

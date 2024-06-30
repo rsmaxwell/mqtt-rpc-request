@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
+import com.rsmaxwell.mqtt.rpc.request.RpcRequest;
 
 public class Calculator extends RpcRequest {
 
@@ -21,6 +22,6 @@ public class Calculator extends RpcRequest {
 	@Override
 	public void handle(Response response) throws Exception {
 		int result = response.getInteger("result");
-		logger.info("result: %d", result);
+		logger.info(String.format("result: %d", result));
 	}
 }

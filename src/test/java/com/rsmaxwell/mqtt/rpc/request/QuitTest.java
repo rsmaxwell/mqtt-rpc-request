@@ -5,6 +5,8 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttClientPersistence;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
@@ -14,9 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Token;
 import com.rsmaxwell.mqtt.rpc.request.requests.Quit;
-import com.rsmaxwell.mqtt.rpc.request.requests.RpcRequest;
 
 public class QuitTest {
+
+	private static final Logger logger = LogManager.getLogger(QuitTest.class);
 
 	static int qos = 0;
 	static volatile boolean keepRunning = true;
@@ -55,9 +58,9 @@ public class QuitTest {
 		client.setCallback(rpc.getAdapter());
 
 		// Connect
-		System.out.printf("Connecting to broker: %s as '%s'\n", server, clientID);
+		logger.info("Connecting to broker: %s as '%s'", server, clientID);
 		client.connect(connOpts).waitForCompletion();
-		System.out.printf("Client %s connected\n", clientID);
+		logger.info(String.format("Client %s connected", clientID));
 
 		// Subscribe to the responseTopic
 		rpc.subscribe();
@@ -72,8 +75,8 @@ public class QuitTest {
 
 		// Disconnect
 		client.disconnect().waitForCompletion();
-		System.out.printf("Client %s disconnected\n", clientID);
-		System.out.println("exiting");
+		logger.info(String.format("Client %s disconnected", clientID));
+		logger.info("exiting");
 	}
 
 	static Option createOption(String shortName, String longName, String argName, String description, boolean required) {

@@ -37,7 +37,7 @@ public class RemoteProcedureCall {
 	// Subscribe to the response topic
 	public void subscribe() throws Exception {
 		MqttSubscription subscription = new MqttSubscription(responseTopic);
-		logger.info("subscribing to: %s", responseTopic);
+		logger.info(String.format("subscribing to: %s", responseTopic));
 		client.subscribe(subscription).waitForCompletion();
 	}
 
@@ -53,10 +53,9 @@ public class RemoteProcedureCall {
 		message.setProperties(properties);
 		message.setQos(qos);
 
-		logger.info(String.format("Publishing: %s to topic: %s with qos: %d", new String(request), topic, qos));
-		logger.info(String.format("    replyTopic: %s", responseTopic));
-		client.publish(topic, message).waitForCompletion();
-		logger.info("Message published");
+		logger.info(String.format("Publishing: %s to topic: '%s' with qos: %d, replyTopic: '%s'", new String(request), topic, qos, responseTopic));
+		logger.info(String.format("correlID: '%s'", correlID));
+		client.publish(topic, message);
 
 		tokens.put(correlID, token);
 		return token;
@@ -67,13 +66,18 @@ public class RemoteProcedureCall {
 
 			@Override
 			public void messageArrived(String topic, MqttMessage reply) throws Exception {
-				logger.info("RemoteProcedureCall.Adapter.messageArrived");
+				logger.info("messageArrived");
 
 				MqttProperties properties = reply.getProperties();
 				byte[] corrationData = properties.getCorrelationData();
-				String correlID = new String(corrationData);
 
-				logger.info("correlID: %s", correlID);
+				if (corrationData == null) {
+					logger.info("Discarding reply because corrationData is null");
+					return;
+				}
+
+				String correlID = new String(corrationData);
+				logger.info(String.format("correlID: %s", correlID));
 
 				Token token = tokens.get(correlID);
 				if (token == null) {

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
+import com.rsmaxwell.mqtt.rpc.request.RpcRequest;
 
 public class GetPages extends RpcRequest {
 
@@ -18,6 +19,6 @@ public class GetPages extends RpcRequest {
 	@Override
 	public void handle(Response response) throws Exception {
 		String result = response.getString("result");
-		logger.info("result: %s", result);
+		logger.info(String.format("result: %s", result));
 	}
 }

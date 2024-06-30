@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
+import com.rsmaxwell.mqtt.rpc.request.RpcRequest;
 
 public class Quit extends RpcRequest {
 
