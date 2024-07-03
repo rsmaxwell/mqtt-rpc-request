@@ -6,10 +6,6 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven {
-        url "${mavenRepositoryBaseURL}/releases"
-        allowInsecureProtocol = true
-    }
 }
 
 dependencies {
