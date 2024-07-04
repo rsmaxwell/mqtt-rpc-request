@@ -5,7 +5,6 @@ import java.util.WeakHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
-import org.eclipse.paho.mqttv5.client.MqttCallback;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.MqttSubscription;
@@ -33,7 +32,33 @@ public class RemoteProcedureCall {
 		this.client = client;
 		this.responseTopic = responseTopic;
 
-		client.setCallback(getAdapter());
+		client.setCallback(new Adapter() {
+
+			@Override
+			public void messageArrived(String topic, MqttMessage reply) throws Exception {
+				logger.info("messageArrived");
+
+				MqttProperties properties = reply.getProperties();
+				byte[] corrationData = properties.getCorrelationData();
+
+				if (corrationData == null) {
+					logger.info("Discarding reply because corrationData is null");
+					return;
+				}
+
+				String correlID = new String(corrationData);
+				logger.info(String.format("correlID: %s", correlID));
+
+				Token token = tokens.get(correlID);
+				if (token == null) {
+					logger.info("Discarding reply because token is null");
+					return;
+				}
+
+				replies.put(correlID, reply);
+				token.completed();
+			}
+		});
 	}
 
 	// Subscribe to the response topic
@@ -61,38 +86,6 @@ public class RemoteProcedureCall {
 
 		tokens.put(correlID, token);
 		return token;
-	}
-
-	private MqttCallback getAdapter() {
-		Adapter adapter = new Adapter() {
-
-			@Override
-			public void messageArrived(String topic, MqttMessage reply) throws Exception {
-				logger.info("messageArrived");
-
-				MqttProperties properties = reply.getProperties();
-				byte[] corrationData = properties.getCorrelationData();
-
-				if (corrationData == null) {
-					logger.info("Discarding reply because corrationData is null");
-					return;
-				}
-
-				String correlID = new String(corrationData);
-				logger.info(String.format("correlID: %s", correlID));
-
-				Token token = tokens.get(correlID);
-				if (token == null) {
-					logger.info("Discarding reply because token is null");
-					return;
-				}
-
-				replies.put(correlID, reply);
-				token.completed();
-			}
-		};
-
-		return adapter;
 	}
 
 	public Response waitForResponse(Token token) throws Exception {
