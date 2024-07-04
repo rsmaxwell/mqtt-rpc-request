@@ -32,6 +32,8 @@ public class RemoteProcedureCall {
 	public RemoteProcedureCall(MqttAsyncClient client, String responseTopic) throws MqttException {
 		this.client = client;
 		this.responseTopic = responseTopic;
+
+		client.setCallback(getAdapter());
 	}
 
 	// Subscribe to the response topic
@@ -61,7 +63,7 @@ public class RemoteProcedureCall {
 		return token;
 	}
 
-	public MqttCallback getAdapter() {
+	private MqttCallback getAdapter() {
 		Adapter adapter = new Adapter() {
 
 			@Override
