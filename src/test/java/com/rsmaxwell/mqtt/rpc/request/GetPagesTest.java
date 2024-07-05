@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Token;
-import com.rsmaxwell.mqtt.rpc.request.requests.GetPages;
 
 public class GetPagesTest {
 
@@ -26,6 +25,10 @@ public class GetPagesTest {
 	static volatile boolean keepRunning = true;
 
 	static private ObjectMapper mapper = new ObjectMapper();
+
+	static Option createOption(String shortName, String longName, String argName, String description, boolean required) {
+		return Option.builder(shortName).longOpt(longName).argName(argName).desc(description).hasArg().required(required).build();
+	}
 
 	public static void main(String[] args) throws Exception {
 
@@ -55,31 +58,38 @@ public class GetPagesTest {
 		connOpts.setUserName(username);
 		connOpts.setPassword(password.getBytes());
 
+		// Make an RPC instance
 		RemoteProcedureCall rpc = new RemoteProcedureCall(client, String.format("response/%s", clientID));
 
 		// Connect
-		logger.info("Connecting to broker: %s as '%s'", server, clientID);
+		logger.info(String.format("Connecting to broker: %s as '%s'", server, clientID));
 		client.connect(connOpts).waitForCompletion();
 		logger.info(String.format("Client %s connected", clientID));
 
 		// Subscribe to the responseTopic
 		rpc.subscribe();
 
-		Request request = new GetPages();
+		// Make a request
+		Request request = new Request("getPages");
+
+		// Send the request as a json string
 		byte[] bytes = mapper.writeValueAsBytes(request);
 		Token token = rpc.request(requestTopic, bytes);
 
 		// Wait for the response to arrive
 		Response response = rpc.waitForResponse(token);
-		request.handle(response);
+
+		// Handle the response
+		if (response.ok()) {
+			String result = response.getString("result");
+			logger.info(String.format("result: %s", result));
+		} else {
+			logger.info(String.format("error response: code: %d, message: %s", response.getCode(), response.getMessage()));
+		}
 
 		// Disconnect
 		client.disconnect().waitForCompletion();
 		logger.info(String.format("Client %s disconnected", clientID));
 		logger.info("exiting");
-	}
-
-	static Option createOption(String shortName, String longName, String argName, String description, boolean required) {
-		return Option.builder(shortName).longOpt(longName).argName(argName).desc(description).hasArg().required(required).build();
 	}
 }
