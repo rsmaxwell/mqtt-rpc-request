@@ -13,6 +13,7 @@ import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Token;
 import com.rsmaxwell.mqtt.rpc.request.requests.Quit;
@@ -64,13 +65,13 @@ public class QuitTest {
 		// Subscribe to the responseTopic
 		rpc.subscribe();
 
-		RpcRequest handler = new Quit();
-		byte[] request = mapper.writeValueAsBytes(handler.getRequest());
-		Token token = rpc.request(requestTopic, request);
+		Request request = new Quit();
+		byte[] bytes = mapper.writeValueAsBytes(request);
+		Token token = rpc.request(requestTopic, bytes);
 
 		// Wait for the response to arrive
 		Response response = rpc.waitForResponse(token);
-		handler.handle(response);
+		request.handle(response);
 
 		// Disconnect
 		client.disconnect().waitForCompletion();

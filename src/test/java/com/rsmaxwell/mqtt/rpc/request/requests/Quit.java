@@ -3,17 +3,15 @@ package com.rsmaxwell.mqtt.rpc.request.requests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.rsmaxwell.mqtt.rpc.common.Request;
+import com.rsmaxwell.mqtt.rpc.common.AbstractRequest;
 import com.rsmaxwell.mqtt.rpc.common.Response;
-import com.rsmaxwell.mqtt.rpc.request.RpcRequest;
 
-public class Quit extends RpcRequest {
+public class Quit extends AbstractRequest {
 
 	private static final Logger logger = LogManager.getLogger(Quit.class);
 
 	public Quit() {
-		Request request = new Request("quit");
-		setRequest(request);
+		super("quit");
 	}
 
 	@Override

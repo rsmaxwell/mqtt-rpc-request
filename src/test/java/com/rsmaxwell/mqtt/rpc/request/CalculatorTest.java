@@ -13,6 +13,7 @@ import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Token;
 import com.rsmaxwell.mqtt.rpc.request.requests.Calculator;
@@ -76,13 +77,13 @@ public class CalculatorTest {
 		// Subscribe to the responseTopic
 		rpc.subscribe();
 
-		RpcRequest handler = new Calculator(operation, param1, param2);
-		byte[] request = mapper.writeValueAsBytes(handler.getRequest());
-		Token token = rpc.request(requestTopic, request);
+		Request request = new Calculator(operation, param1, param2);
+		byte[] bytes = mapper.writeValueAsBytes(request);
+		Token token = rpc.request(requestTopic, bytes);
 
 		// Wait for the response to arrive
 		Response response = rpc.waitForResponse(token);
-		handler.handle(response);
+		request.handle(response);
 
 		// Disconnect
 		client.disconnect().waitForCompletion();

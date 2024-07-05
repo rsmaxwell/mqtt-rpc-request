@@ -3,17 +3,15 @@ package com.rsmaxwell.mqtt.rpc.request.requests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.rsmaxwell.mqtt.rpc.common.Request;
+import com.rsmaxwell.mqtt.rpc.common.AbstractRequest;
 import com.rsmaxwell.mqtt.rpc.common.Response;
-import com.rsmaxwell.mqtt.rpc.request.RpcRequest;
 
-public class GetPages extends RpcRequest {
+public class GetPages extends AbstractRequest {
 
 	private static final Logger logger = LogManager.getLogger(GetPages.class);
 
 	public GetPages() {
-		Request request = new Request("getPages");
-		setRequest(request);
+		super("getPages");
 	}
 
 	@Override
