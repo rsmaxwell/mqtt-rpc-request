@@ -99,7 +99,7 @@ public class CalculatorTest {
 			int result = response.getInteger("result");
 			logger.info(String.format("result: %d", result));
 		} else {
-
+			logger.info(String.format("error response: code: %d, message: %s", response.getCode(), response.getMessage()));
 		}
 
 		// Disconnect
