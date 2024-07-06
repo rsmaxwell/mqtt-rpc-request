@@ -81,7 +81,7 @@ public class RemoteProcedureCall {
 		message.setQos(qos);
 
 		logger.info(String.format("Publishing: %s to topic: '%s' with qos: %d, replyTopic: '%s'", new String(request), topic, qos, responseTopic));
-		logger.info(String.format("correlID: '%s'", correlID));
+		logger.info(String.format("correlID: %s", correlID));
 		client.publish(topic, message);
 
 		tokens.put(correlID, token);
