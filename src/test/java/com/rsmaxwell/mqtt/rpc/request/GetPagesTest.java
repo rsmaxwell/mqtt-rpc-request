@@ -66,7 +66,7 @@ public class GetPagesTest {
 		logger.info(String.format("Client %s connected", clientID));
 
 		// Subscribe to the responseTopic
-		rpc.subscribe();
+		rpc.subscribeToResponseTopic();
 
 		// Make a request
 		Request request = new Request("getPages");
