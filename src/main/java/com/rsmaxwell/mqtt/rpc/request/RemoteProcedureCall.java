@@ -12,8 +12,6 @@ import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Adapter;
-import com.rsmaxwell.mqtt.rpc.common.Response;
-import com.rsmaxwell.mqtt.rpc.common.Token;
 
 public class RemoteProcedureCall {
 
@@ -86,16 +84,5 @@ public class RemoteProcedureCall {
 
 		tokens.put(correlID, token);
 		return token;
-	}
-
-	public Response waitForResponse(Token token) throws Exception {
-
-		token.waitForCompletion();
-
-		String correlID = token.getID();
-		MqttMessage reply = replies.get(correlID);
-
-		byte[] payload = reply.getPayload();
-		return mapper.readValue(payload, Response.class);
 	}
 }

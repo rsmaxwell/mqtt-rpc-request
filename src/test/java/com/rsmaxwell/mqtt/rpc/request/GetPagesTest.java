@@ -15,7 +15,6 @@ import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
-import com.rsmaxwell.mqtt.rpc.common.Token;
 
 public class GetPagesTest {
 
@@ -77,7 +76,7 @@ public class GetPagesTest {
 		Token token = rpc.request(requestTopic, bytes);
 
 		// Wait for the response to arrive
-		Response response = rpc.waitForResponse(token);
+		Response response = token.waitForResponse();
 
 		// Handle the response
 		if (response.ok()) {
