@@ -16,9 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 
-public class GetPagesTest {
+public class GetPagesRequest {
 
-	private static final Logger logger = LogManager.getLogger(GetPagesTest.class);
+	private static final Logger logger = LogManager.getLogger(GetPagesRequest.class);
 
 	static int qos = 0;
 	static volatile boolean keepRunning = true;

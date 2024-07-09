@@ -40,6 +40,7 @@ for /R .\mqtt-rpc-request\runtime %%a in (*.jar) do (
 set CLASSPATH=!CLASSPATH!;.\mqtt-rpc-request\build\classes\java\test
 set CLASSPATH=!CLASSPATH!"
 
-
-java -classpath %CLASSPATH% com.rsmaxwell.mqtt.rpc.request.GetPagesTest --username %MQTT_USERNAME% --password %MQTT_PASSWORD%
+echo %CLASSPATH%
+echo ""
+java -classpath %CLASSPATH% com.rsmaxwell.mqtt.rpc.request.QuitRequest --username %MQTT_USERNAME% --password %MQTT_PASSWORD%
 

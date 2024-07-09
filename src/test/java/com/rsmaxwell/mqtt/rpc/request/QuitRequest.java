@@ -16,9 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 
-public class QuitTest {
+public class QuitRequest {
 
-	private static final Logger logger = LogManager.getLogger(QuitTest.class);
+	private static final Logger logger = LogManager.getLogger(QuitRequest.class);
 
 	static int qos = 0;
 	static volatile boolean keepRunning = true;
@@ -70,6 +70,7 @@ public class QuitTest {
 
 		// Make a request
 		Request request = new Request("quit");
+		request.put("quit", true);
 
 		// Send the request as a json string
 		byte[] bytes = mapper.writeValueAsBytes(request);
