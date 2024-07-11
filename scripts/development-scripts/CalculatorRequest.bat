@@ -28,13 +28,13 @@ popd
 cd %PROJECT_DIR%
 
 set CLASSPATH="%SUBPROJECT_DIR%\build\classes\java\test
-for /R .\mqtt-rpc-request\build\libs %%a in (*.jar) do (
+for /R %SUBPROJECT_DIR%\build\libs %%a in (*.jar) do (
   set CLASSPATH=!CLASSPATH!;%%a
 )
 for /R .\mqtt-rpc-common\build\libs %%a in (*.jar) do (
   set CLASSPATH=!CLASSPATH!;%%a
 )
-for /R .\mqtt-rpc-request\runtime %%a in (*.jar) do (
+for /R %SUBPROJECT_DIR%\runtime %%a in (*.jar) do (
   set CLASSPATH=!CLASSPATH!;%%a
 )
 set CLASSPATH=!CLASSPATH!;%SUBPROJECT_DIR%\src\main\resources\log4j2.xml
