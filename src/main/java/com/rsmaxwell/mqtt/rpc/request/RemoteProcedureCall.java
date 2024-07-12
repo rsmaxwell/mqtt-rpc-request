@@ -78,7 +78,7 @@ public class RemoteProcedureCall {
 		message.setProperties(properties);
 		message.setQos(qos);
 
-		logger.info(String.format("Publishing: %s to topic: '%s' with qos: %d, replyTopic: '%s'", new String(request), topic, qos, responseTopic));
+		logger.info(String.format("Sending request: %s", new String(request)));
 		logger.info(String.format("correlID: %s", correlID));
 		client.publish(topic, message);
 

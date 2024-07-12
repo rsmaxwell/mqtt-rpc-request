@@ -27,18 +27,14 @@ popd
 
 cd %PROJECT_DIR%
 
-set CLASSPATH="%SUBPROJECT_DIR%\build\classes\java\test
-for /R .\mqtt-rpc-request\build\libs %%a in (*.jar) do (
+set CLASSPATH="%SUBPROJECT_DIR%\build\classes\java\main
+set CLASSPATH=%CLASSPATH%;%SUBPROJECT_DIR%\build\classes\java\test
+set CLASSPATH=%CLASSPATH%;%SUBPROJECT_DIR%\src\test\resources
+set CLASSPATH=%CLASSPATH%;%PROJECT_DIR%\mqtt-rpc-common\build\libs\mqtt-rpc-common.jar
+for /R %SUBPROJECT_DIR%\runtime %%a in (*.jar) do (
   set CLASSPATH=!CLASSPATH!;%%a
 )
-for /R .\mqtt-rpc-common\build\libs %%a in (*.jar) do (
-  set CLASSPATH=!CLASSPATH!;%%a
-)
-for /R .\mqtt-rpc-request\runtime %%a in (*.jar) do (
-  set CLASSPATH=!CLASSPATH!;%%a
-)
-set CLASSPATH=!CLASSPATH!;%SUBPROJECT_DIR%\src\main\resources\log4j2.xml
-set CLASSPATH=!CLASSPATH!"
+set CLASSPATH=%CLASSPATH%"
 
 
 java -classpath %CLASSPATH% com.rsmaxwell.mqtt.rpc.request.CalculatorRequest ^
