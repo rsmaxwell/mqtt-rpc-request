@@ -10,7 +10,6 @@ import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.MqttSubscription;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Adapter;
 
 public class RemoteProcedureCall {
@@ -21,7 +20,6 @@ public class RemoteProcedureCall {
 	static String clientID = "requester";
 	static WeakHashMap<String, MqttMessage> replies = new WeakHashMap<>();
 	static WeakHashMap<String, Token> tokens = new WeakHashMap<>();
-	static private ObjectMapper mapper = new ObjectMapper();
 
 	private MqttAsyncClient client;
 	private String responseTopic;
@@ -45,7 +43,7 @@ public class RemoteProcedureCall {
 				}
 
 				String correlID = new String(corrationData);
-				logger.info(String.format("correlID: %s", correlID));
+				logger.debug(String.format("correlID: %s", correlID));
 
 				Token token = tokens.get(correlID);
 				if (token == null) {
@@ -79,7 +77,7 @@ public class RemoteProcedureCall {
 		message.setQos(qos);
 
 		logger.info(String.format("Sending request: %s", new String(request)));
-		logger.info(String.format("correlID: %s", correlID));
+		logger.debug(String.format("correlID: %s", correlID));
 		client.publish(topic, message);
 
 		tokens.put(correlID, token);
