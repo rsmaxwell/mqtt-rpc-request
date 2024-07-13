@@ -32,7 +32,7 @@ public class RemoteProcedureCall {
 
 			@Override
 			public void messageArrived(String topic, MqttMessage reply) throws Exception {
-				logger.info("messageArrived");
+				logger.debug("messageArrived");
 
 				MqttProperties properties = reply.getProperties();
 				byte[] corrationData = properties.getCorrelationData();
@@ -60,7 +60,7 @@ public class RemoteProcedureCall {
 	// Subscribe to the response topic
 	public void subscribeToResponseTopic() throws Exception {
 		MqttSubscription subscription = new MqttSubscription(responseTopic);
-		logger.info(String.format("subscribing to: %s", responseTopic));
+		logger.debug(String.format("subscribing to: %s", responseTopic));
 		client.subscribe(subscription).waitForCompletion();
 	}
 
