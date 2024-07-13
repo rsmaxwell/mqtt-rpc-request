@@ -24,4 +24,8 @@ A user written Requester program:
   * parse the response and display the result 
 
 
+### Example
+
+An example of the using mqtt-rpc to make a request is: [CalculatorRequest](https://github.com/rsmaxwell/mqtt-rpc-request/blob/main/src/test/java/com/rsmaxwell/mqtt/rpc/request/CalculatorRequest.java)
+
 
