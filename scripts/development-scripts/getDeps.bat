@@ -27,5 +27,7 @@ popd
 
 cd %SUBPROJECT_DIR%
 
+
+del /Q %SUBPROJECT_DIR%\runtime\*
 echo on
 %PROJECT_DIR%\gradlew getdeps --warning-mode all
