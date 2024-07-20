@@ -80,7 +80,7 @@ public class QuitRequest {
 		Response response = token.waitForResponse();
 
 		// Handle the response
-		if (response.ok()) {
+		if (response.isok()) {
 			logger.info("Responder is Quitting");
 		} else {
 			logger.info(String.format("error response: code: %d, message: %s", response.getCode(), response.getMessage()));

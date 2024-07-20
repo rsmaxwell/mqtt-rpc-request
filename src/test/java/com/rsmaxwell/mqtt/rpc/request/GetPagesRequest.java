@@ -79,7 +79,7 @@ public class GetPagesRequest {
 		Response response = token.waitForResponse();
 
 		// Handle the response
-		if (response.ok()) {
+		if (response.isok()) {
 			String result = response.getString("result");
 			logger.info(String.format("result: %s", result));
 		} else {

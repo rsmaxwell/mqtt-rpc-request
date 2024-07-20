@@ -94,7 +94,7 @@ public class CalculatorRequest {
 		Response response = token.waitForResponse();
 
 		// Handle the response
-		if (response.ok()) {
+		if (response.isok()) {
 			int result = response.getInteger("result");
 			logger.info(String.format("result: %d", result));
 		} else {
