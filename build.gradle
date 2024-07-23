@@ -26,6 +26,7 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    withSourcesJar()
 }
 
 compileJava.options.encoding = "UTF-8"
