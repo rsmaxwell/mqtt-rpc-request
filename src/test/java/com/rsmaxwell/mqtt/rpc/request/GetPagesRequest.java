@@ -15,6 +15,7 @@ import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
+import com.rsmaxwell.mqtt.rpc.common.Status;
 
 public class GetPagesRequest {
 
@@ -77,13 +78,15 @@ public class GetPagesRequest {
 
 		// Wait for the response to arrive
 		Response response = token.waitForResponse();
+		Status status = response.getStatus();
 
 		// Handle the response
-		if (response.isok()) {
-			String result = response.getString("result");
-			logger.info(String.format("result: %s", result));
+		if (status.isOk()) {
+			Object payload = response.getPayload();
+			String result = (String) payload;
+			logger.info(String.format("payload: %s", result));
 		} else {
-			logger.info(String.format("error response: code: %d, message: %s", response.getCode(), response.getMessage()));
+			logger.info(String.format("status: %s", status.toString()));
 		}
 
 		// Disconnect

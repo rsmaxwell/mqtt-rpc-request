@@ -15,6 +15,7 @@ import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
+import com.rsmaxwell.mqtt.rpc.common.Status;
 
 public class CalculatorRequest {
 
@@ -92,13 +93,14 @@ public class CalculatorRequest {
 
 		// Wait for the response to arrive
 		Response response = token.waitForResponse();
+		Status status = response.getStatus();
 
 		// Handle the response
-		if (response.isok()) {
-			int result = response.getInteger("result");
-			logger.info(String.format("result: %d", result));
+		if (status.isOk()) {
+			Integer result = (Integer) response.getPayload();
+			logger.info(String.format("payload: %d", result));
 		} else {
-			logger.info(String.format("error response: code: %d, message: %s", response.getCode(), response.getMessage()));
+			logger.info(String.format("status: %s", status.toString()));
 		}
 
 		// Disconnect
