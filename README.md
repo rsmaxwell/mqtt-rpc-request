@@ -16,7 +16,7 @@ It expects that a requests will be handled by a matching responder.
 A user written Requester program:
 
   * Make a RemoteProcedureCall instance
-  * connects to an mqtt broker (this sets PRC as a callback adapter)
+  * connects to an mqtt broker (this sets RPC as a callback adapter)
   * subscribe to the responseTopic (specific to this client)
   * generate a Request 
   * call rpc to publish the request
