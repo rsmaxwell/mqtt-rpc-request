@@ -8,7 +8,9 @@ BUILD_DIR=${SUBPROJECT_DIR}/build
 
 . ${BUILD_DIR}/buildinfo
 
-tree ${PROJECT_DIR}
+ls -al ${SCRIPT_DIR}
+ls -al ${SUBPROJECT_DIR}
+ls -al ${PROJECT_DIR}
 
 cd ${SUBPROJECT_DIR}
 
