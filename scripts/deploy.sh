@@ -12,6 +12,6 @@ BUILD_DIR=${SUBPROJECT_DIR}/build
 cd ${SUBPROJECT_DIR}
 
 
-${PROJECT_DIR}/gradlew publish \
+${SUBPROJECT_DIR}/gradlew publish \
     -PrepositoryName=${REPOSITORY} \
     -PprojectVersion=${VERSION}
