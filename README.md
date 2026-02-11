@@ -8,7 +8,7 @@ mqtt expects that a mosquitto broker is running to which clients connect and com
 The user of this project will write a Responder program as described below, and will provide a set of request handler classes 
 which will be called process requests
 
-It expects that a requests will be handles by a matching responder.
+It expects that a requests will be handled by a matching responder.
 
 
 ### Structure
