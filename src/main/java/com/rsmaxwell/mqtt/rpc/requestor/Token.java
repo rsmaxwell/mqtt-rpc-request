@@ -1,4 +1,4 @@
-package com.rsmaxwell.mqtt.rpc.request;
+package com.rsmaxwell.mqtt.rpc.requestor;
 
 import java.util.UUID;
 

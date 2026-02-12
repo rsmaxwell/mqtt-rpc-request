@@ -1,4 +1,4 @@
-package com.rsmaxwell.mqtt.rpc.request.buildinfo;
+package com.rsmaxwell.mqtt.rpc.requestor.buildinfo;
 
 import com.rsmaxwell.mqtt.rpc.common.buildinfo.AbstractBuildInfo;
 

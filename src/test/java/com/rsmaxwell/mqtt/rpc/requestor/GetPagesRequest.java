@@ -1,4 +1,4 @@
-package com.rsmaxwell.mqtt.rpc.request;
+package com.rsmaxwell.mqtt.rpc.requestor;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -17,9 +17,9 @@ import com.rsmaxwell.mqtt.rpc.common.Request;
 import com.rsmaxwell.mqtt.rpc.common.Response;
 import com.rsmaxwell.mqtt.rpc.common.Status;
 
-public class QuitRequest {
+public class GetPagesRequest {
 
-	private static final Logger logger = LogManager.getLogger(QuitRequest.class);
+	private static final Logger logger = LogManager.getLogger(GetPagesRequest.class);
 
 	static int qos = 0;
 	static volatile boolean keepRunning = true;
@@ -70,8 +70,7 @@ public class QuitRequest {
 		rpc.subscribeToResponseTopic();
 
 		// Make a request
-		Request request = new Request("quit");
-		request.put("quit", true);
+		Request request = new Request("getPages");
 
 		// Send the request as a json string
 		byte[] bytes = mapper.writeValueAsBytes(request);
@@ -83,9 +82,11 @@ public class QuitRequest {
 
 		// Handle the response
 		if (status.isOk()) {
-			logger.info("Responder is Quitting");
+			Object payload = response.getPayload();
+			String result = (String) payload;
+			logger.info(String.format("payload: %s", result));
 		} else {
-			logger.info(String.format("status %s", status.toString()));
+			logger.info(String.format("status: %s", status.toString()));
 		}
 
 		// Disconnect
