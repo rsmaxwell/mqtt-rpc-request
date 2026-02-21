@@ -70,8 +70,6 @@ publishing {
                 username = mavenUser
                 password = mavenPassword
             }
-
-            allowInsecureProtocol = true
         }
     }
 }
