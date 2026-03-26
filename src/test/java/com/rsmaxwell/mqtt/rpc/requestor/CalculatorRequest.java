@@ -5,12 +5,12 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttClientPersistence;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsmaxwell.mqtt.rpc.common.Request;
@@ -19,7 +19,7 @@ import com.rsmaxwell.mqtt.rpc.common.Status;
 
 public class CalculatorRequest {
 
-	private static final Logger logger = LogManager.getLogger(CalculatorRequest.class);
+	private static final Logger logger = LoggerFactory.getLogger(CalculatorRequest.class);
 
 	static int qos = 0;
 	static volatile boolean keepRunning = true;

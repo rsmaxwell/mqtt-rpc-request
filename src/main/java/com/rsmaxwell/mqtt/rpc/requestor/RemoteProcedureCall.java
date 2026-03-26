@@ -2,19 +2,19 @@ package com.rsmaxwell.mqtt.rpc.requestor;
 
 import java.util.WeakHashMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.MqttSubscription;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.rsmaxwell.mqtt.rpc.common.Adapter;
 
 public class RemoteProcedureCall {
 
-	private static final Logger logger = LogManager.getLogger(RemoteProcedureCall.class);
+	private static final Logger logger = LoggerFactory.getLogger(RemoteProcedureCall.class);
 
 	static int qos = 0;
 	static String clientID = "requester";
